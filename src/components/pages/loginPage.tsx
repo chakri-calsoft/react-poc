@@ -30,7 +30,6 @@ interface FormValues {
 
 const LoginComponent: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [navigateToHome, setNavigateToHome] = useState(false);
 
   const initialValues: FormValues = { email: "", password: "" };
   const navigate = useNavigate();
@@ -38,8 +37,8 @@ const LoginComponent: React.FC = () => {
     mutationFn: postLogin,
     onSuccess: (response) => {
       if (response.data.token) {
-        setNavigateToHome((prev) => !prev);
         setAuthSession(response.data.token);
+        navigate("/home");
         console.log("Login successful:", response.data);
       }
     },
@@ -52,10 +51,6 @@ const LoginComponent: React.FC = () => {
 
   const handleSubmit = (values: FormValues) => {
     console.log(values);
-    if (navigateToHome) {
-      navigate("/home");
-    }
-
     mutation.mutate(values);
   };
 
